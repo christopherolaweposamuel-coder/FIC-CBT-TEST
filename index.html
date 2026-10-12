@@ -1,0 +1,702 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>University Examination - Overview and Nature of Vision</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f2f4f7;
+        color: #222;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: auto;
+        background: white;
+        padding: 28px;
+        border-radius: 12px;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+    }
+
+    header {
+        text-align: center;
+        border-bottom: 2px solid #183b65;
+        padding-bottom: 18px;
+        margin-bottom: 20px;
+    }
+
+    header h1 {
+        color: #183b65;
+        font-size: 25px;
+        margin-bottom: 5px;
+    }
+
+    header h2 {
+        font-size: 19px;
+        margin: 5px 0;
+    }
+
+    .instructions {
+        background: #eef4fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .timer {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: #183b65;
+        color: white;
+        text-align: center;
+        padding: 12px;
+        font-size: 22px;
+        font-weight: bold;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .timer.warning {
+        background: #b42318;
+    }
+
+    .question {
+        border: 1px solid #d9dee7;
+        border-radius: 8px;
+        padding: 18px;
+        margin-bottom: 18px;
+    }
+
+    .question h3 {
+        font-size: 16px;
+        margin-top: 0;
+        color: #183b65;
+    }
+
+    .option {
+        display: block;
+        padding: 9px 12px;
+        margin: 7px 0;
+        border: 1px solid #e0e4ea;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .option:hover {
+        background: #f0f5fb;
+    }
+
+    .option input {
+        margin-right: 9px;
+    }
+
+    .correct {
+        background: #e1f5e7 !important;
+        border-color: #218739 !important;
+    }
+
+    .incorrect {
+        background: #fde8e7 !important;
+        border-color: #c62828 !important;
+    }
+
+    .explanation {
+        display: none;
+        margin-top: 12px;
+        padding: 10px;
+        background: #f4f6f8;
+        border-left: 4px solid #183b65;
+        border-radius: 4px;
+    }
+
+    button {
+        border: none;
+        border-radius: 7px;
+        padding: 13px 22px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 5px;
+    }
+
+    #startBtn, #submitBtn {
+        background: #183b65;
+        color: white;
+    }
+
+    #resetBtn {
+        background: #e5e7eb;
+        color: #222;
+    }
+
+    button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .controls {
+        text-align: center;
+        margin: 25px 0;
+    }
+
+    #result {
+        display: none;
+        padding: 22px;
+        margin: 20px 0;
+        border: 2px solid #183b65;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    #result h2 {
+        color: #183b65;
+    }
+
+    .progress {
+        background: #e5e7eb;
+        height: 10px;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 12px 0;
+    }
+
+    #progressBar {
+        height: 100%;
+        width: 0%;
+        background: #218739;
+        transition: width 0.2s;
+    }
+
+    .small {
+        font-size: 13px;
+        color: #555;
+    }
+
+    @media (max-width: 600px) {
+        body {
+            padding: 8px;
+        }
+
+        .container {
+            padding: 15px;
+        }
+
+        header h1 {
+            font-size: 21px;
+        }
+
+        .question {
+            padding: 13px;
+        }
+    }
+
+    @media print {
+        .timer, .controls, .instructions {
+            display: none;
+        }
+
+        body {
+            background: white;
+        }
+
+        .container {
+            box-shadow: none;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <h1>UNIVERSITY STANDARD EXAMINATION</h1>
+    <h2>FOUNDATION TOOLS</h2>
+    <h2>CHAPTER ONE: OVERVIEW AND NATURE OF VISION</h2>
+    <p><strong>Course:</strong> Vision, Mission and Personal Development</p>
+    <p><strong>Duration:</strong> 8 Minutes | <strong>Questions:</strong> 20 | <strong>Total Marks:</strong> 20</p>
+</header>
+
+<div class="instructions">
+    <strong>Instructions to Candidates</strong>
+    <ol>
+        <li>Answer all 20 questions.</li>
+        <li>Select only one option (A, B, C or D) for each question.</li>
+        <li>Each question carries one mark.</li>
+        <li>The examination lasts for 8 minutes.</li>
+        <li>Click Submit Test to see your score and the correct answers immediately.</li>
+        <li>The test will submit automatically when the time expires.</li>
+    </ol>
+</div>
+
+<div class="timer" id="timer">Time Remaining: 08:00</div>
+
+<div class="progress">
+    <div id="progressBar"></div>
+</div>
+
+<p id="progressText" class="small">Questions answered: 0 of 20</p>
+
+<div class="controls" id="startControls">
+    <button id="startBtn" onclick="startTest()">Start Examination</button>
+</div>
+
+<form id="quizForm" style="display:none;">
+
+<div id="questions"></div>
+
+<div class="controls">
+    <button type="submit" id="submitBtn">Submit Test</button>
+</div>
+
+</form>
+
+<div id="result">
+    <h2>EXAMINATION RESULT</h2>
+    <h3 id="score"></h3>
+    <p id="percentage"></p>
+    <p id="remark"></p>
+    <p id="answeredSummary"></p>
+    <p id="submissionMessage"></p>
+    <button id="resetBtn" onclick="location.reload()">Retake Examination</button>
+</div>
+
+</div>
+
+<script>
+const questions = [
+{
+    q: "Which of the following best defines an individual vision?",
+    options: [
+        "A record of past achievements and experiences",
+        "A deeply personal and aspirational statement of what a person wants to achieve or become",
+        "A list of daily activities without long-term objectives",
+        "A statement describing only a person's present circumstances"
+    ],
+    answer: 1,
+    explanation: "An individual vision describes a desired future and provides purpose, direction and motivation for personal decisions."
+},
+{
+    q: "What is the primary function of a vision in an individual's life?",
+    options: [
+        "To eliminate every challenge in life",
+        "To replace personal responsibility",
+        "To provide direction and focus for decisions and actions",
+        "To guarantee immediate success"
+    ],
+    answer: 2,
+    explanation: "Vision acts as a compass, helping individuals prioritise activities and make decisions that support their long-term aspirations."
+},
+{
+    q: "Which characteristic makes an individual vision easy to understand?",
+    options: [
+        "Complexity",
+        "Clarity",
+        "Uncertainty",
+        "Vagueness"
+    ],
+    answer: 1,
+    explanation: "Clarity means the vision is specific, understandable and presents a clear picture of the desired future."
+},
+{
+    q: "The purpose of an individual vision primarily refers to:",
+    options: [
+        "The motivation behind the vision",
+        "The number of goals a person has",
+        "The person's social status",
+        "The resources available to others"
+    ],
+    answer: 0,
+    explanation: "Purpose is the core motivation behind an individual vision and explains why the desired future matters."
+},
+{
+    q: "Which of the following best distinguishes a vision statement from a mission statement?",
+    options: [
+        "A vision describes the past, while a mission describes the future",
+        "A vision describes the desired future, while a mission explains the present purpose and activities",
+        "A vision is only for individuals, while a mission is only for governments",
+        "There is no meaningful distinction between them"
+    ],
+    answer: 1,
+    explanation: "Vision explains what a person or organisation aspires to become, whereas mission describes its purpose and how it operates."
+},
+{
+    q: "An effective organisational vision primarily serves as:",
+    options: [
+        "A list of employee salaries",
+        "A daily attendance register",
+        "A guide for decisions, shared culture and long-term objectives",
+        "A replacement for organisational policies"
+    ],
+    answer: 2,
+    explanation: "An organisational vision unites people around a common future and guides strategic decisions and actions."
+},
+{
+    q: "A vision that challenges an organisation while remaining achievable is described as:",
+    options: [
+        "Ambitious yet realistic",
+        "Completely unrestricted",
+        "Unchanging in every operational detail",
+        "Unrelated to available capabilities"
+    ],
+    answer: 0,
+    explanation: "A strong vision stretches an organisation towards improvement while remaining achievable through effort and strategic planning."
+},
+{
+    q: "Why should an organisational vision be aligned with core values?",
+    options: [
+        "To prevent all organisational change",
+        "To ensure future aspirations reflect the organisation's guiding principles",
+        "To make the vision longer",
+        "To avoid setting strategic objectives"
+    ],
+    answer: 1,
+    explanation: "Values alignment ensures the organisation pursues its aspirations consistently with its fundamental beliefs and culture."
+},
+{
+    q: "Which statement best describes a future-oriented vision?",
+    options: [
+        "It focuses exclusively on yesterday's activities",
+        "It records current expenses",
+        "It describes the desired future state of an individual or organisation",
+        "It avoids long-term aspirations"
+    ],
+    answer: 2,
+    explanation: "A future-oriented vision describes what a person or organisation hopes to become or accomplish in the future."
+},
+{
+    q: "What does it mean for an organisational vision to be distinctive?",
+    options: [
+        "It must use difficult technical language",
+        "It must be identical to competitors' visions",
+        "It must focus only on financial profit",
+        "It should reflect the organisation's unique contribution and identity"
+    ],
+    answer: 3,
+    explanation: "A distinctive vision communicates what makes an organisation different and the unique contribution it intends to make."
+},
+{
+    q: "According to the biblical perspective discussed in the text, a true biblical vision is primarily associated with:",
+    options: [
+        "Personal ambition alone",
+        "Divine revelation, guidance and spiritual understanding",
+        "Scientific observation alone",
+        "Organisational competition"
+    ],
+    answer: 1,
+    explanation: "The chapter presents biblical vision as involving God's communication, guidance and spiritual revelation."
+},
+{
+    q: "In Habakkuk 2:3, the idea that a vision has an appointed time emphasises:",
+    options: [
+        "The importance of God's timing and patience",
+        "The need to abandon delayed goals",
+        "The certainty that every desire happens immediately",
+        "The irrelevance of perseverance"
+    ],
+    answer: 0,
+    explanation: "The passage emphasises that a vision may await its appointed time and that its fulfilment may require patience."
+},
+{
+    q: "Why does the chapter warn against false visions?",
+    options: [
+        "All future planning is unreliable",
+        "Every personal aspiration is wrong",
+        "Claims of revelation should be discerned and tested against God's Word",
+        "Visions should never influence decisions"
+    ],
+    answer: 2,
+    explanation: "The text stresses discernment because not every claimed vision originates from God; biblical teaching provides a standard for testing such claims."
+},
+{
+    q: "Which biblical reference is associated with the statement, 'Where there is no vision, the people perish'?",
+    options: [
+        "Genesis 1:1",
+        "Psalm 23:1",
+        "John 3:16",
+        "Proverbs 29:18"
+    ],
+    answer: 3,
+    explanation: "The chapter cites Proverbs 29:18 when explaining the importance of vision and divine direction."
+},
+{
+    q: "Which of the following is identified as one of RCCG's vision statements in the textbook?",
+    options: [
+        "To become the largest commercial bank in Africa",
+        "To have a member of RCCG in every family of all nations",
+        "To eliminate the need for local churches",
+        "To focus exclusively on academic research"
+    ],
+    answer: 1,
+    explanation: "The textbook lists having a member of RCCG in every family of all nations as one of the church's vision statements."
+},
+{
+    q: "According to the textbook, which lifestyle is emphasised as part of accomplishing RCCG's first vision?",
+    options: [
+        "Holiness",
+        "Commercial competition",
+        "Political influence",
+        "Material possession alone"
+    ],
+    answer: 0,
+    explanation: "The textbook explains that holiness is the lifestyle associated with accomplishing the first vision of making heaven."
+},
+{
+    q: "What is the stated vision of Redeemer's University in the supplied textbook?",
+    options: [
+        "To become the largest church in the world",
+        "To focus only on international trade",
+        "To be the foremost academic institution, setting standards through continuous commitment to excellence and transformative societal impact",
+        "To provide education without research or innovation"
+    ],
+    answer: 2,
+    explanation: "The university's vision emphasises academic leadership, excellence and transformative impact on society."
+},
+{
+    q: "What does the acronym LIFE PIE represent in Redeemer's University guiding values?",
+    options: [
+        "Learning, Innovation, Finance, Enterprise, Planning and Investment",
+        "Leadership, Independence, Freedom, Education, Performance and Integrity",
+        "Loyalty, Intelligence, Faith, Excellence, Planning and Enterprise",
+        "Loyalty, Integrity, Faithfulness, Excellence, Passion, Innovation and Entrepreneurship"
+    ],
+    answer: 3,
+    explanation: "LIFE PIE represents Loyalty, Integrity, Faithfulness, Excellence, Passion, Innovation and Entrepreneurship."
+},
+{
+    q: "Which approach is recommended when developing an individual vision statement?",
+    options: [
+        "Copying another person's statement without reflection",
+        "Reflecting on personal values, strengths, passions and desired impact",
+        "Concentrating exclusively on present difficulties",
+        "Avoiding review after the first draft"
+    ],
+    answer: 1,
+    explanation: "Self-reflection helps individuals identify their values, strengths, passions and desired future before drafting a vision."
+},
+{
+    q: "Which of the following is the most appropriate feature of a well-written vision statement?",
+    options: [
+        "It is concise, inspirational, future-oriented and meaningful",
+        "It is lengthy, ambiguous and difficult to remember",
+        "It focuses entirely on past achievements",
+        "It avoids expressing any desired future"
+    ],
+    answer: 0,
+    explanation: "An effective vision statement is brief, memorable, aspirational and focused on a desired future."
+}
+];
+
+let timeLeft = 8 * 60;
+let timerInterval = null;
+let started = false;
+let submitted = false;
+
+const form = document.getElementById("quizForm");
+const questionsContainer = document.getElementById("questions");
+const timerDisplay = document.getElementById("timer");
+
+function renderQuestions() {
+    questionsContainer.innerHTML = "";
+
+    questions.forEach((question, index) => {
+        const card = document.createElement("div");
+        card.className = "question";
+        card.id = "question-" + index;
+
+        const heading = document.createElement("h3");
+        heading.textContent =
+            "Question " + (index + 1) + ": " + question.q;
+        card.appendChild(heading);
+
+        question.options.forEach((option, optionIndex) => {
+            const label = document.createElement("label");
+            label.className = "option";
+            label.id = "option-" + index + "-" + optionIndex;
+
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = "q" + index;
+            radio.value = optionIndex;
+            radio.disabled = true;
+            radio.addEventListener("change", updateProgress);
+
+            label.appendChild(radio);
+            label.appendChild(
+                document.createTextNode(
+                    String.fromCharCode(65 + optionIndex) + ". " + option
+                )
+            );
+
+            card.appendChild(label);
+        });
+
+        const explanation = document.createElement("div");
+        explanation.className = "explanation";
+        explanation.id = "explanation-" + index;
+        card.appendChild(explanation);
+
+        questionsContainer.appendChild(card);
+    });
+}
+
+function startTest() {
+    if (started) return;
+
+    started = true;
+
+    document.getElementById("startControls").style.display = "none";
+    form.style.display = "block";
+
+    document.querySelectorAll('#quizForm input[type="radio"]')
+        .forEach(input => input.disabled = false);
+
+    updateTimer();
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+
+        if (timeLeft <= 0) {
+            submitTest(true);
+        }
+    }, 1000);
+}
+
+function updateTimer() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+
+    timerDisplay.textContent =
+        "Time Remaining: " +
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0");
+
+    if (timeLeft <= 60) {
+        timerDisplay.classList.add("warning");
+    }
+}
+
+function updateProgress() {
+    const answered = questions.filter((_, index) =>
+        document.querySelector('input[name="q' + index + '"]:checked')
+    ).length;
+
+    document.getElementById("progressText").textContent =
+        "Questions answered: " + answered + " of " + questions.length;
+
+    document.getElementById("progressBar").style.width =
+        (answered / questions.length * 100) + "%";
+}
+
+form.addEventListener("submit", function(event) {
+    event.preventDefault();
+    submitTest(false);
+});
+
+function submitTest(timeExpired) {
+    if (submitted) return;
+
+    submitted = true;
+    clearInterval(timerInterval);
+
+    let score = 0;
+    let answered = 0;
+
+    questions.forEach((question, index) => {
+        const selected = document.querySelector(
+            'input[name="q' + index + '"]:checked'
+        );
+
+        const correctLabel = document.getElementById(
+            "option-" + index + "-" + question.answer
+        );
+
+        if (selected) {
+            answered++;
+            if (Number(selected.value) === question.answer) {
+                score++;
+            }
+        }
+
+        correctLabel.classList.add("correct");
+
+        if (selected && Number(selected.value) !== question.answer) {
+            document.getElementById(
+                "option-" + index + "-" + selected.value
+            ).classList.add("incorrect");
+        }
+
+        const explanation = document.getElementById("explanation-" + index);
+        explanation.style.display = "block";
+
+        explanation.innerHTML =
+            "<strong>Correct Answer: " +
+            String.fromCharCode(65 + question.answer) +
+            "</strong><br>" +
+            question.explanation;
+    });
+
+    document.querySelectorAll('#quizForm input[type="radio"]')
+        .forEach(input => input.disabled = true);
+
+    document.getElementById("submitBtn").disabled = true;
+
+    const percentage = Math.round((score / questions.length) * 100);
+
+    document.getElementById("score").textContent =
+        "Your Score: " + score + " / " + questions.length;
+
+    document.getElementById("percentage").textContent =
+        "Percentage: " + percentage + "%";
+
+    let remark;
+
+    if (percentage >= 70) {
+        remark = "Excellent performance. You have demonstrated a strong understanding of the topic.";
+    } else if (percentage >= 50) {
+        remark = "Good effort. Review the explanations to strengthen your understanding.";
+    } else {
+        remark = "Keep studying. Review the chapter and use the explanations to improve.";
+    }
+
+    document.getElementById("remark").textContent = remark;
+
+    document.getElementById("answeredSummary").textContent =
+        "Questions answered: " + answered +
+        " | Unanswered: " + (questions.length - answered);
+
+    document.getElementById("submissionMessage").textContent =
+        timeExpired
+            ? "Your test was submitted automatically because time expired."
+            : "Your test was submitted successfully. All answers are now displayed.";
+
+    document.getElementById("result").style.display = "block";
+
+    timerDisplay.textContent = timeExpired
+        ? "Time Expired — Test Submitted"
+        : "Test Submitted";
+
+    document.getElementById("result").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+renderQuestions();
+</script>
+
+</body>
+</html>
