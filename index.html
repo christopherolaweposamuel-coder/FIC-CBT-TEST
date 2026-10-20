@@ -4,543 +4,613 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>University Examination - Overview and Nature of Vision</title>
+<title>COS 101 - Humanware Test</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
+* {
+    box-sizing: border-box;
+}
 
-    body {
-        font-family: Arial, Helvetica, sans-serif;
-        background: #f2f4f7;
-        color: #222;
-        line-height: 1.6;
-        margin: 0;
-        padding: 20px;
-    }
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #eef2f7;
+    color: #202938;
+    line-height: 1.6;
+}
 
-    .container {
-        max-width: 900px;
-        margin: auto;
-        background: white;
-        padding: 28px;
-        border-radius: 12px;
-        box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-    }
+.header {
+    background: linear-gradient(135deg, #101d3a, #174b82);
+    color: white;
+    text-align: center;
+    padding: 30px 15px;
+}
 
-    header {
-        text-align: center;
-        border-bottom: 2px solid #183b65;
-        padding-bottom: 18px;
-        margin-bottom: 20px;
-    }
+.header h1 {
+    margin: 0;
+    font-size: 28px;
+}
 
-    header h1 {
-        color: #183b65;
-        font-size: 25px;
-        margin-bottom: 5px;
-    }
+.header p {
+    margin: 8px 0 0;
+    color: #d9e8ff;
+}
 
-    header h2 {
-        font-size: 19px;
-        margin: 5px 0;
-    }
+.container {
+    max-width: 900px;
+    margin: 22px auto;
+    padding: 0 15px;
+}
 
-    .instructions {
-        background: #eef4fa;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-    }
+.info-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #0000000d;
+    margin-bottom: 20px;
+}
 
-    .timer {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        background: #183b65;
-        color: white;
-        text-align: center;
-        padding: 12px;
+.timer-box {
+    background: #e7f0ff;
+    color: #174b82;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+#timer {
+    font-size: 24px;
+    font-variant-numeric: tabular-nums;
+}
+
+.timer-box.warning {
+    background: #ffebeb;
+    color: #c62828;
+}
+
+.progress-area {
+    margin-bottom: 20px;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 7px;
+}
+
+.progress-track {
+    background: #d8e0ec;
+    height: 9px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#progress {
+    height: 100%;
+    width: 0%;
+    background: #2675d8;
+    transition: width 0.2s;
+}
+
+.question {
+    background: white;
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 3px 12px #0000000a;
+    border: 1px solid #e1e7f0;
+}
+
+.question h3 {
+    margin-top: 0;
+    font-size: 17px;
+}
+
+.question-number {
+    color: #1e65b5;
+    font-weight: bold;
+}
+
+.option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #dce3ed;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.option:hover {
+    background: #f0f6ff;
+    border-color: #4786d7;
+}
+
+.option input {
+    margin-top: 5px;
+    accent-color: #1769c2;
+    flex-shrink: 0;
+}
+
+.option.correct {
+    background: #e4f7e9;
+    border-color: #29994a;
+}
+
+.option.incorrect {
+    background: #ffebeb;
+    border-color: #d94848;
+}
+
+.explanation {
+    display: none;
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #f0f5fc;
+    border-left: 4px solid #2675d8;
+}
+
+.question.answered .explanation {
+    display: block;
+}
+
+.buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 25px 0;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 14px 22px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.submit-btn {
+    flex: 1;
+    background: #1769c2;
+    color: white;
+}
+
+.submit-btn:hover:not(:disabled) {
+    background: #104f96;
+}
+
+.reset-btn {
+    background: #e0e6ef;
+    color: #24344d;
+}
+
+#result {
+    display: none;
+    background: white;
+    border-radius: 14px;
+    padding: 25px;
+    margin-bottom: 30px;
+    text-align: center;
+    box-shadow: 0 4px 18px #00000012;
+}
+
+#result h2 {
+    color: #174b82;
+}
+
+#score {
+    font-size: 38px;
+    font-weight: bold;
+    color: #1769c2;
+}
+
+.result-details {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin: 20px 0;
+}
+
+.result-details div {
+    background: #f0f5fc;
+    padding: 12px 20px;
+    border-radius: 8px;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+@media (max-width: 600px) {
+    .header h1 {
         font-size: 22px;
-        font-weight: bold;
-        border-radius: 8px;
-        margin-bottom: 20px;
-    }
-
-    .timer.warning {
-        background: #b42318;
     }
 
     .question {
-        border: 1px solid #d9dee7;
-        border-radius: 8px;
-        padding: 18px;
-        margin-bottom: 18px;
+        padding: 16px;
     }
 
-    .question h3 {
-        font-size: 16px;
-        margin-top: 0;
-        color: #183b65;
-    }
-
-    .option {
-        display: block;
-        padding: 9px 12px;
-        margin: 7px 0;
-        border: 1px solid #e0e4ea;
-        border-radius: 6px;
-        cursor: pointer;
-    }
-
-    .option:hover {
-        background: #f0f5fb;
-    }
-
-    .option input {
-        margin-right: 9px;
-    }
-
-    .correct {
-        background: #e1f5e7 !important;
-        border-color: #218739 !important;
-    }
-
-    .incorrect {
-        background: #fde8e7 !important;
-        border-color: #c62828 !important;
-    }
-
-    .explanation {
-        display: none;
-        margin-top: 12px;
-        padding: 10px;
-        background: #f4f6f8;
-        border-left: 4px solid #183b65;
-        border-radius: 4px;
+    .info-panel {
+        align-items: flex-start;
     }
 
     button {
-        border: none;
-        border-radius: 7px;
-        padding: 13px 22px;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        margin: 5px;
+        width: 100%;
     }
-
-    #startBtn, #submitBtn {
-        background: #183b65;
-        color: white;
-    }
-
-    #resetBtn {
-        background: #e5e7eb;
-        color: #222;
-    }
-
-    button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-
-    .controls {
-        text-align: center;
-        margin: 25px 0;
-    }
-
-    #result {
-        display: none;
-        padding: 22px;
-        margin: 20px 0;
-        border: 2px solid #183b65;
-        border-radius: 8px;
-        text-align: center;
-    }
-
-    #result h2 {
-        color: #183b65;
-    }
-
-    .progress {
-        background: #e5e7eb;
-        height: 10px;
-        border-radius: 10px;
-        overflow: hidden;
-        margin: 12px 0;
-    }
-
-    #progressBar {
-        height: 100%;
-        width: 0%;
-        background: #218739;
-        transition: width 0.2s;
-    }
-
-    .small {
-        font-size: 13px;
-        color: #555;
-    }
-
-    @media (max-width: 600px) {
-        body {
-            padding: 8px;
-        }
-
-        .container {
-            padding: 15px;
-        }
-
-        header h1 {
-            font-size: 21px;
-        }
-
-        .question {
-            padding: 13px;
-        }
-    }
-
-    @media print {
-        .timer, .controls, .instructions {
-            display: none;
-        }
-
-        body {
-            background: white;
-        }
-
-        .container {
-            box-shadow: none;
-        }
-    }
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
-
-<header>
-    <h1>UNIVERSITY STANDARD EXAMINATION</h1>
-    <h2>FOUNDATION TOOLS</h2>
-    <h2>CHAPTER ONE: OVERVIEW AND NATURE OF VISION</h2>
-    <p><strong>Course:</strong> Vision, Mission and Personal Development</p>
-    <p><strong>Duration:</strong> 8 Minutes | <strong>Questions:</strong> 20 | <strong>Total Marks:</strong> 20</p>
+<header class="header">
+    <h1>COS 101: Introduction to Computing Sciences</h1>
+    <p>MODULE 7 — HUMANWARE</p>
+    <p>University-Level Computer-Based Test</p>
 </header>
 
-<div class="instructions">
-    <strong>Instructions to Candidates</strong>
-    <ol>
-        <li>Answer all 20 questions.</li>
-        <li>Select only one option (A, B, C or D) for each question.</li>
-        <li>Each question carries one mark.</li>
-        <li>The examination lasts for 8 minutes.</li>
-        <li>Click Submit Test to see your score and the correct answers immediately.</li>
-        <li>The test will submit automatically when the time expires.</li>
-    </ol>
-</div>
+<main class="container">
 
-<div class="timer" id="timer">Time Remaining: 08:00</div>
+    <section class="info-panel">
+        <div>
+            <strong>Total Questions:</strong> 20<br>
+            <strong>Duration:</strong> 15 Minutes<br>
+            <strong>Total Marks:</strong> 20
+        </div>
 
-<div class="progress">
-    <div id="progressBar"></div>
-</div>
+        <div class="timer-box" id="timerBox">
+            TIME LEFT<br>
+            <span id="timer">15:00</span>
+        </div>
+    </section>
 
-<p id="progressText" class="small">Questions answered: 0 of 20</p>
+    <section class="progress-area">
+        <div class="progress-text">
+            <span>Test Progress</span>
+            <span id="answeredCount">0 / 20 answered</span>
+        </div>
+        <div class="progress-track">
+            <div id="progress"></div>
+        </div>
+    </section>
 
-<div class="controls" id="startControls">
-    <button id="startBtn" onclick="startTest()">Start Examination</button>
-</div>
+    <div id="quiz"></div>
 
-<form id="quizForm" style="display:none;">
+    <div class="buttons">
+        <button class="submit-btn" id="submitBtn"
+                onclick="submitTest(false)">
+            SUBMIT TEST
+        </button>
 
-<div id="questions"></div>
+        <button class="reset-btn" onclick="resetTest()">
+            RESTART TEST
+        </button>
+    </div>
 
-<div class="controls">
-    <button type="submit" id="submitBtn">Submit Test</button>
-</div>
+    <section id="result">
+        <h2>Test Completed!</h2>
+        <p id="resultMessage"></p>
+        <div id="score"></div>
 
-</form>
+        <div class="result-details">
+            <div>
+                <strong>Correct Answers</strong><br>
+                <span id="correctCount"></span>
+            </div>
 
-<div id="result">
-    <h2>EXAMINATION RESULT</h2>
-    <h3 id="score"></h3>
-    <p id="percentage"></p>
-    <p id="remark"></p>
-    <p id="answeredSummary"></p>
-    <p id="submissionMessage"></p>
-    <button id="resetBtn" onclick="location.reload()">Retake Examination</button>
-</div>
+            <div>
+                <strong>Wrong Answers</strong><br>
+                <span id="wrongCount"></span>
+            </div>
 
-</div>
+            <div>
+                <strong>Unanswered</strong><br>
+                <span id="unansweredCount"></span>
+            </div>
+        </div>
+
+        <p id="timeMessage"></p>
+        <p>Review the questions below to see the correct answers
+        and explanations.</p>
+
+        <button class="submit-btn" onclick="resetTest()">
+            TRY AGAIN
+        </button>
+    </section>
+
+</main>
+
+<footer class="footer">
+    COS 101 | Module 7: Humanware | Keep Learning!
+</footer>
 
 <script>
 const questions = [
 {
-    q: "Which of the following best defines an individual vision?",
+    q: "Which of the following best defines humanware?",
     options: [
-        "A record of past achievements and experiences",
-        "A deeply personal and aspirational statement of what a person wants to achieve or become",
-        "A list of daily activities without long-term objectives",
-        "A statement describing only a person's present circumstances"
-    ],
-    answer: 1,
-    explanation: "An individual vision describes a desired future and provides purpose, direction and motivation for personal decisions."
-},
-{
-    q: "What is the primary function of a vision in an individual's life?",
-    options: [
-        "To eliminate every challenge in life",
-        "To replace personal responsibility",
-        "To provide direction and focus for decisions and actions",
-        "To guarantee immediate success"
+        "The physical components of a computer",
+        "The programs installed on a computer",
+        "The people involved in developing, operating, maintaining and using computer systems",
+        "The raw facts stored in a database"
     ],
     answer: 2,
-    explanation: "Vision acts as a compass, helping individuals prioritise activities and make decisions that support their long-term aspirations."
+    explanation: "Humanware is the human component of a computer system. It includes the people who develop, manage, maintain and use computing technology."
 },
 {
-    q: "Which characteristic makes an individual vision easy to understand?",
+    q: "A university computer laboratory has computers, applications, student records, staff and operating rules. Which component refers to the staff and students?",
     options: [
-        "Complexity",
-        "Clarity",
-        "Uncertainty",
-        "Vagueness"
+        "Hardware",
+        "Humanware",
+        "Software",
+        "Data"
     ],
     answer: 1,
-    explanation: "Clarity means the vision is specific, understandable and presents a clear picture of the desired future."
+    explanation: "Staff and students are people who operate and use the computing facilities, so they belong to humanware."
 },
 {
-    q: "The purpose of an individual vision primarily refers to:",
+    q: "Which component consists of the physical equipment that can be seen and touched?",
     options: [
-        "The motivation behind the vision",
-        "The number of goals a person has",
-        "The person's social status",
-        "The resources available to others"
-    ],
-    answer: 0,
-    explanation: "Purpose is the core motivation behind an individual vision and explains why the desired future matters."
-},
-{
-    q: "Which of the following best distinguishes a vision statement from a mission statement?",
-    options: [
-        "A vision describes the past, while a mission describes the future",
-        "A vision describes the desired future, while a mission explains the present purpose and activities",
-        "A vision is only for individuals, while a mission is only for governments",
-        "There is no meaningful distinction between them"
-    ],
-    answer: 1,
-    explanation: "Vision explains what a person or organisation aspires to become, whereas mission describes its purpose and how it operates."
-},
-{
-    q: "An effective organisational vision primarily serves as:",
-    options: [
-        "A list of employee salaries",
-        "A daily attendance register",
-        "A guide for decisions, shared culture and long-term objectives",
-        "A replacement for organisational policies"
-    ],
-    answer: 2,
-    explanation: "An organisational vision unites people around a common future and guides strategic decisions and actions."
-},
-{
-    q: "A vision that challenges an organisation while remaining achievable is described as:",
-    options: [
-        "Ambitious yet realistic",
-        "Completely unrestricted",
-        "Unchanging in every operational detail",
-        "Unrelated to available capabilities"
-    ],
-    answer: 0,
-    explanation: "A strong vision stretches an organisation towards improvement while remaining achievable through effort and strategic planning."
-},
-{
-    q: "Why should an organisational vision be aligned with core values?",
-    options: [
-        "To prevent all organisational change",
-        "To ensure future aspirations reflect the organisation's guiding principles",
-        "To make the vision longer",
-        "To avoid setting strategic objectives"
-    ],
-    answer: 1,
-    explanation: "Values alignment ensures the organisation pursues its aspirations consistently with its fundamental beliefs and culture."
-},
-{
-    q: "Which statement best describes a future-oriented vision?",
-    options: [
-        "It focuses exclusively on yesterday's activities",
-        "It records current expenses",
-        "It describes the desired future state of an individual or organisation",
-        "It avoids long-term aspirations"
-    ],
-    answer: 2,
-    explanation: "A future-oriented vision describes what a person or organisation hopes to become or accomplish in the future."
-},
-{
-    q: "What does it mean for an organisational vision to be distinctive?",
-    options: [
-        "It must use difficult technical language",
-        "It must be identical to competitors' visions",
-        "It must focus only on financial profit",
-        "It should reflect the organisation's unique contribution and identity"
+        "Procedures",
+        "Software",
+        "Humanware",
+        "Hardware"
     ],
     answer: 3,
-    explanation: "A distinctive vision communicates what makes an organisation different and the unique contribution it intends to make."
+    explanation: "Hardware includes physical devices such as the keyboard, monitor, CPU, RAM and storage devices."
 },
 {
-    q: "According to the biblical perspective discussed in the text, a true biblical vision is primarily associated with:",
+    q: "Which of the following is an example of system software?",
     options: [
-        "Personal ambition alone",
-        "Divine revelation, guidance and spiritual understanding",
-        "Scientific observation alone",
-        "Organisational competition"
+        "A student examination score",
+        "An operating system",
+        "A computer technician",
+        "A university attendance record"
     ],
     answer: 1,
-    explanation: "The chapter presents biblical vision as involving God's communication, guidance and spiritual revelation."
+    explanation: "An operating system is system software because it manages computer resources and provides services for applications."
 },
 {
-    q: "In Habakkuk 2:3, the idea that a vision has an appointed time emphasises:",
+    q: "Which statement correctly distinguishes data from information?",
     options: [
-        "The importance of God's timing and patience",
-        "The need to abandon delayed goals",
-        "The certainty that every desire happens immediately",
-        "The irrelevance of perseverance"
-    ],
-    answer: 0,
-    explanation: "The passage emphasises that a vision may await its appointed time and that its fulfilment may require patience."
-},
-{
-    q: "Why does the chapter warn against false visions?",
-    options: [
-        "All future planning is unreliable",
-        "Every personal aspiration is wrong",
-        "Claims of revelation should be discerned and tested against God's Word",
-        "Visions should never influence decisions"
+        "Data is always meaningful, while information is always meaningless",
+        "Data refers only to pictures and videos",
+        "Data consists of raw facts, while information is data processed meaningfully",
+        "Data and information always mean exactly the same thing"
     ],
     answer: 2,
-    explanation: "The text stresses discernment because not every claimed vision originates from God; biblical teaching provides a standard for testing such claims."
+    explanation: "Data consists of raw facts and figures. When processed and organised meaningfully, it can become useful information."
 },
 {
-    q: "Which biblical reference is associated with the statement, 'Where there is no vision, the people perish'?",
+    q: "Who is primarily responsible for writing and testing source code?",
     options: [
-        "Genesis 1:1",
-        "Psalm 23:1",
-        "John 3:16",
-        "Proverbs 29:18"
-    ],
-    answer: 3,
-    explanation: "The chapter cites Proverbs 29:18 when explaining the importance of vision and divine direction."
-},
-{
-    q: "Which of the following is identified as one of RCCG's vision statements in the textbook?",
-    options: [
-        "To become the largest commercial bank in Africa",
-        "To have a member of RCCG in every family of all nations",
-        "To eliminate the need for local churches",
-        "To focus exclusively on academic research"
-    ],
-    answer: 1,
-    explanation: "The textbook lists having a member of RCCG in every family of all nations as one of the church's vision statements."
-},
-{
-    q: "According to the textbook, which lifestyle is emphasised as part of accomplishing RCCG's first vision?",
-    options: [
-        "Holiness",
-        "Commercial competition",
-        "Political influence",
-        "Material possession alone"
+        "Computer programmer",
+        "Database administrator",
+        "Network administrator",
+        "End user"
     ],
     answer: 0,
-    explanation: "The textbook explains that holiness is the lifestyle associated with accomplishing the first vision of making heaven."
+    explanation: "Programmers write, test, debug and update computer programs."
 },
 {
-    q: "What is the stated vision of Redeemer's University in the supplied textbook?",
+    q: "A university wants to replace its manual attendance register with an electronic system. Who would primarily analyse user needs and define system requirements?",
     options: [
-        "To become the largest church in the world",
-        "To focus only on international trade",
-        "To be the foremost academic institution, setting standards through continuous commitment to excellence and transformative societal impact",
-        "To provide education without research or innovation"
+        "Computer operator",
+        "End user only",
+        "Hardware technician",
+        "Systems analyst"
+    ],
+    answer: 3,
+    explanation: "Systems analysts investigate existing processes, identify problems and specify the requirements for improved information systems."
+},
+{
+    q: "Which professional is primarily responsible for organising, securing, backing up and recovering databases?",
+    options: [
+        "Computer programmer",
+        "Database administrator",
+        "Network engineer",
+        "Project manager"
+    ],
+    answer: 1,
+    explanation: "Database administrators manage database security, permissions, backups, recovery and performance."
+},
+{
+    q: "Students can use a university portal, but the campus Wi-Fi frequently fails. Which professional should primarily investigate the network connectivity problem?",
+    options: [
+        "Systems analyst",
+        "Database administrator",
+        "Network administrator",
+        "Lecturer"
     ],
     answer: 2,
-    explanation: "The university's vision emphasises academic leadership, excellence and transformative impact on society."
+    explanation: "Network administrators maintain network equipment, connectivity and network performance."
 },
 {
-    q: "What does the acronym LIFE PIE represent in Redeemer's University guiding values?",
+    q: "Which humanware category focuses primarily on protecting systems and information from digital threats?",
     options: [
-        "Learning, Innovation, Finance, Enterprise, Planning and Investment",
-        "Leadership, Independence, Freedom, Education, Performance and Integrity",
-        "Loyalty, Intelligence, Faith, Excellence, Planning and Enterprise",
-        "Loyalty, Integrity, Faithfulness, Excellence, Passion, Innovation and Entrepreneurship"
-    ],
-    answer: 3,
-    explanation: "LIFE PIE represents Loyalty, Integrity, Faithfulness, Excellence, Passion, Innovation and Entrepreneurship."
-},
-{
-    q: "Which approach is recommended when developing an individual vision statement?",
-    options: [
-        "Copying another person's statement without reflection",
-        "Reflecting on personal values, strengths, passions and desired impact",
-        "Concentrating exclusively on present difficulties",
-        "Avoiding review after the first draft"
-    ],
-    answer: 1,
-    explanation: "Self-reflection helps individuals identify their values, strengths, passions and desired future before drafting a vision."
-},
-{
-    q: "Which of the following is the most appropriate feature of a well-written vision statement?",
-    options: [
-        "It is concise, inspirational, future-oriented and meaningful",
-        "It is lengthy, ambiguous and difficult to remember",
-        "It focuses entirely on past achievements",
-        "It avoids expressing any desired future"
+        "Cybersecurity professional",
+        "Computer operator",
+        "End user",
+        "Word processor operator"
     ],
     answer: 0,
-    explanation: "An effective vision statement is brief, memorable, aspirational and focused on a desired future."
+    explanation: "Cybersecurity professionals identify vulnerabilities, monitor suspicious activity and implement security controls."
+},
+{
+    q: "What is the main difference between a programmer and a systems analyst?",
+    options: [
+        "A programmer maintains databases, while an analyst repairs monitors",
+        "A programmer uses computers, while an analyst never uses computers",
+        "Both roles have exactly the same responsibilities",
+        "A programmer writes and tests code, while an analyst studies needs and defines requirements"
+    ],
+    answer: 3,
+    explanation: "Programming focuses on creating and testing code. Systems analysis focuses on understanding problems and determining system requirements."
+},
+{
+    q: "Which of the following is an example of a procedure?",
+    options: [
+        "The physical keyboard",
+        "The rule for backing up important files regularly",
+        "A database containing student records",
+        "A programmer who writes an application"
+    ],
+    answer: 1,
+    explanation: "Procedures are established rules and steps for operating or managing a system, such as backup routines and login rules."
+},
+{
+    q: "A computer calculates students' grades correctly, but a staff member enters the wrong scores. Which humanware responsibility is most directly relevant?",
+    options: [
+        "Manufacturing the CPU",
+        "Replacing the operating system",
+        "Entering and validating data for accuracy",
+        "Designing the computer's physical casing"
+    ],
+    answer: 2,
+    explanation: "Humanware helps provide and validate accurate input. Incorrect data can produce incorrect results even when the system works properly."
+},
+{
+    q: "Which skill enables IT personnel to explain technical problems clearly to people with limited computing knowledge?",
+    options: [
+        "Communication skills",
+        "Hardware capacity",
+        "Data storage",
+        "Network bandwidth"
+    ],
+    answer: 0,
+    explanation: "Communication skills help technical staff explain information clearly to users, colleagues and managers."
+},
+{
+    q: "Human-Computer Interaction (HCI) is mainly concerned with:",
+    options: [
+        "Increasing the physical weight of computers",
+        "Replacing all human users with machines",
+        "Storing every file in one location",
+        "Improving the way people interact with computer systems and interfaces"
+    ],
+    answer: 3,
+    explanation: "HCI studies interaction between people and computers. Its goal includes making interfaces understandable, usable and accessible."
+},
+{
+    q: "Which practice is most consistent with good computer ergonomics?",
+    options: [
+        "Using a monitor at an uncomfortable height",
+        "Maintaining suitable posture and taking regular breaks",
+        "Working continuously without breaks",
+        "Using poor lighting for long periods"
+    ],
+    answer: 1,
+    explanation: "Good ergonomics includes proper posture, suitable monitor placement, comfortable equipment positioning, adequate lighting and regular breaks."
+},
+{
+    q: "A lecturer shares students' confidential examination records with an unauthorised person. Which ethical principle has been violated?",
+    options: [
+        "Continuous learning",
+        "Teamwork",
+        "Privacy and confidentiality",
+        "Computer maintenance"
+    ],
+    answer: 2,
+    explanation: "Privacy and confidentiality require people to protect sensitive information from unauthorised disclosure."
+},
+{
+    q: "Which action best improves account security?",
+    options: [
+        "Using strong, unique passwords and multifactor authentication where available",
+        "Sharing passwords with classmates",
+        "Leaving computers unlocked",
+        "Using the same simple password for every account"
+    ],
+    answer: 0,
+    explanation: "Strong unique passwords, multifactor authentication and locking unattended computers help protect accounts and systems."
+},
+{
+    q: "A company introduces new software, but employees refuse to use it because they do not understand its benefits. Which challenge is illustrated?",
+    options: [
+        "Hardware manufacture",
+        "Database recovery",
+        "Data processing",
+        "Resistance to change"
+    ],
+    answer: 3,
+    explanation: "Resistance to change occurs when users are reluctant to adopt a new system. Consultation, demonstrations and training may help."
+},
+{
+    q: "A university has working computers and well-developed software, but students cannot use the system effectively because they have received no training. What is the best conclusion?",
+    options: [
+        "Hardware and software are never useful",
+        "Effective computing also depends on competent humanware and appropriate training",
+        "Data is not required in computer systems",
+        "Procedures should always be removed"
+    ],
+    answer: 1,
+    explanation: "A computer system is most effective when its components work together. User competence and training are essential even when hardware and software function correctly."
 }
 ];
 
-let timeLeft = 8 * 60;
+let timeLeft = 15 * 60;
 let timerInterval = null;
-let started = false;
 let submitted = false;
+let started = false;
 
-const form = document.getElementById("quizForm");
-const questionsContainer = document.getElementById("questions");
-const timerDisplay = document.getElementById("timer");
+const quiz = document.getElementById("quiz");
+const timer = document.getElementById("timer");
+const timerBox = document.getElementById("timerBox");
+const submitBtn = document.getElementById("submitBtn");
 
 function renderQuestions() {
-    questionsContainer.innerHTML = "";
+    quiz.innerHTML = "";
 
     questions.forEach((question, index) => {
-        const card = document.createElement("div");
+        const card = document.createElement("section");
         card.className = "question";
         card.id = "question-" + index;
 
         const heading = document.createElement("h3");
-        heading.textContent =
-            "Question " + (index + 1) + ": " + question.q;
+        heading.innerHTML =
+            '<span class="question-number">Question ' +
+            (index + 1) + ' of ' + questions.length +
+            '.</span> ' + question.q;
+
         card.appendChild(heading);
 
         question.options.forEach((option, optionIndex) => {
             const label = document.createElement("label");
             label.className = "option";
-            label.id = "option-" + index + "-" + optionIndex;
+            label.htmlFor = "q" + index + "o" + optionIndex;
 
-            const radio = document.createElement("input");
-            radio.type = "radio";
-            radio.name = "q" + index;
-            radio.value = optionIndex;
-            radio.disabled = true;
-            radio.addEventListener("change", updateProgress);
+            const input = document.createElement("input");
+            input.type = "radio";
+            input.name = "question" + index;
+            input.id = "q" + index + "o" + optionIndex;
+            input.value = optionIndex;
+            input.addEventListener("change", updateProgress);
 
-            label.appendChild(radio);
-            label.appendChild(
-                document.createTextNode(
-                    String.fromCharCode(65 + optionIndex) + ". " + option
-                )
-            );
+            const text = document.createElement("span");
+            text.textContent =
+                String.fromCharCode(65 + optionIndex) + ". " + option;
 
+            label.appendChild(input);
+            label.appendChild(text);
             card.appendChild(label);
         });
 
@@ -549,27 +619,43 @@ function renderQuestions() {
         explanation.id = "explanation-" + index;
         card.appendChild(explanation);
 
-        questionsContainer.appendChild(card);
+        quiz.appendChild(card);
     });
+
+    updateProgress();
 }
 
-function startTest() {
-    if (started) return;
+function updateProgress() {
+    const answered = questions.filter((q, index) =>
+        document.querySelector(
+            'input[name="question' + index + '"]:checked'
+        )
+    ).length;
+
+    document.getElementById("answeredCount").textContent =
+        answered + " / " + questions.length + " answered";
+
+    document.getElementById("progress").style.width =
+        (answered / questions.length * 100) + "%";
+
+    if (!started && answered > 0) {
+        startTimer();
+    }
+}
+
+function startTimer() {
+    if (started || submitted) return;
 
     started = true;
 
-    document.getElementById("startControls").style.display = "none";
-    form.style.display = "block";
-
-    document.querySelectorAll('#quizForm input[type="radio"]')
-        .forEach(input => input.disabled = false);
-
-    updateTimer();
     timerInterval = setInterval(() => {
         timeLeft--;
+
+        if (timeLeft < 0) timeLeft = 0;
+
         updateTimer();
 
-        if (timeLeft <= 0) {
+        if (timeLeft === 0) {
             submitTest(true);
         }
     }, 1000);
@@ -579,124 +665,167 @@ function updateTimer() {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
 
-    timerDisplay.textContent =
-        "Time Remaining: " +
+    timer.textContent =
         String(minutes).padStart(2, "0") + ":" +
         String(seconds).padStart(2, "0");
 
     if (timeLeft <= 60) {
-        timerDisplay.classList.add("warning");
+        timerBox.classList.add("warning");
     }
 }
 
-function updateProgress() {
-    const answered = questions.filter((_, index) =>
-        document.querySelector('input[name="q' + index + '"]:checked')
+function submitTest(autoSubmitted) {
+    if (submitted) return;
+
+    const answered = questions.filter((q, index) =>
+        document.querySelector(
+            'input[name="question' + index + '"]:checked'
+        )
     ).length;
 
-    document.getElementById("progressText").textContent =
-        "Questions answered: " + answered + " of " + questions.length;
+    if (!autoSubmitted && answered < questions.length) {
+        const confirmSubmit = confirm(
+            "You have answered " + answered + " out of " +
+            questions.length + " questions.\n\n" +
+            "Do you want to submit now? Unanswered questions " +
+            "will be marked as incorrect."
+        );
 
-    document.getElementById("progressBar").style.width =
-        (answered / questions.length * 100) + "%";
-}
+        if (!confirmSubmit) return;
+    } else if (!autoSubmitted) {
+        const confirmSubmit = confirm(
+            "Are you sure you want to submit your test?"
+        );
 
-form.addEventListener("submit", function(event) {
-    event.preventDefault();
-    submitTest(false);
-});
-
-function submitTest(timeExpired) {
-    if (submitted) return;
+        if (!confirmSubmit) return;
+    }
 
     submitted = true;
     clearInterval(timerInterval);
 
-    let score = 0;
-    let answered = 0;
+    let correct = 0;
+    let wrong = 0;
+    let unanswered = 0;
 
     questions.forEach((question, index) => {
+        const card = document.getElementById("question-" + index);
+
         const selected = document.querySelector(
-            'input[name="q' + index + '"]:checked'
+            'input[name="question' + index + '"]:checked'
         );
 
-        const correctLabel = document.getElementById(
-            "option-" + index + "-" + question.answer
-        );
+        const labels = card.querySelectorAll(".option");
 
-        if (selected) {
-            answered++;
-            if (Number(selected.value) === question.answer) {
-                score++;
+        labels.forEach((label, optionIndex) => {
+            const input = label.querySelector("input");
+            input.disabled = true;
+
+            if (optionIndex === question.answer) {
+                label.classList.add("correct");
             }
+
+            if (selected &&
+                Number(selected.value) === optionIndex &&
+                optionIndex !== question.answer) {
+                label.classList.add("incorrect");
+            }
+        });
+
+        if (!selected) {
+            unanswered++;
+        } else if (Number(selected.value) === question.answer) {
+            correct++;
+        } else {
+            wrong++;
         }
 
-        correctLabel.classList.add("correct");
+        const correctLetter =
+            String.fromCharCode(65 + question.answer);
 
-        if (selected && Number(selected.value) !== question.answer) {
-            document.getElementById(
-                "option-" + index + "-" + selected.value
-            ).classList.add("incorrect");
-        }
-
-        const explanation = document.getElementById("explanation-" + index);
-        explanation.style.display = "block";
+        const explanation = document.getElementById(
+            "explanation-" + index
+        );
 
         explanation.innerHTML =
-            "<strong>Correct Answer: " +
-            String.fromCharCode(65 + question.answer) +
-            "</strong><br>" +
-            question.explanation;
+            "<strong>Correct answer: " + correctLetter +
+            ". " + question.options[question.answer] +
+            "</strong><br><br>" + question.explanation;
+
+        card.classList.add("answered");
     });
 
-    document.querySelectorAll('#quizForm input[type="radio"]')
-        .forEach(input => input.disabled = true);
+    submitBtn.disabled = true;
+    submitBtn.textContent = "TEST SUBMITTED";
 
-    document.getElementById("submitBtn").disabled = true;
-
-    const percentage = Math.round((score / questions.length) * 100);
+    const percentage = Math.round(
+        (correct / questions.length) * 100
+    );
 
     document.getElementById("score").textContent =
-        "Your Score: " + score + " / " + questions.length;
+        correct + " / " + questions.length +
+        " (" + percentage + "%)";
 
-    document.getElementById("percentage").textContent =
-        "Percentage: " + percentage + "%";
+    document.getElementById("correctCount").textContent = correct;
+    document.getElementById("wrongCount").textContent = wrong;
+    document.getElementById("unansweredCount").textContent =
+        unanswered;
 
-    let remark;
+    let message;
 
-    if (percentage >= 70) {
-        remark = "Excellent performance. You have demonstrated a strong understanding of the topic.";
-    } else if (percentage >= 50) {
-        remark = "Good effort. Review the explanations to strengthen your understanding.";
+    if (percentage >= 80) {
+        message = "Excellent work! You have a strong understanding of Humanware.";
+    } else if (percentage >= 60) {
+        message = "Good effort! Review the explanations to strengthen your understanding.";
+    } else if (percentage >= 40) {
+        message = "Fair attempt. Study the lecture notes and try the test again.";
     } else {
-        remark = "Keep studying. Review the chapter and use the explanations to improve.";
+        message = "Keep practising. Review Module 7 carefully and attempt the test again.";
     }
 
-    document.getElementById("remark").textContent = remark;
+    document.getElementById("resultMessage").textContent = message;
 
-    document.getElementById("answeredSummary").textContent =
-        "Questions answered: " + answered +
-        " | Unanswered: " + (questions.length - answered);
+    document.getElementById("timeMessage").textContent =
+        autoSubmitted
+        ? "Time expired. Your test was submitted automatically."
+        : "You submitted your test with " +
+          Math.floor(timeLeft / 60) + " minute(s) and " +
+          (timeLeft % 60) + " second(s) remaining.";
 
-    document.getElementById("submissionMessage").textContent =
-        timeExpired
-            ? "Your test was submitted automatically because time expired."
-            : "Your test was submitted successfully. All answers are now displayed.";
+    const result = document.getElementById("result");
+    result.style.display = "block";
 
-    document.getElementById("result").style.display = "block";
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
 
-    timerDisplay.textContent = timeExpired
-        ? "Time Expired — Test Submitted"
-        : "Test Submitted";
+function resetTest() {
+    clearInterval(timerInterval);
 
-    document.getElementById("result").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
+    timeLeft = 15 * 60;
+    submitted = false;
+    started = false;
+
+    timerBox.classList.remove("warning");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "SUBMIT TEST";
+
+    document.getElementById("result").style.display = "none";
+
+    updateTimer();
+    renderQuestions();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
     });
 }
 
 renderQuestions();
+updateTimer();
 </script>
 
 </body>
 </html>
+
